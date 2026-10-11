@@ -1,0 +1,23 @@
+# Specifies what pip should use to "build" package.
+[build-system]
+requires = ["setuptools >= 68"]
+build-backend = "setuptools.build_meta"
+
+# Thanks dependecies anyone install application will automatically get pillow and reportlab.
+[project]
+name = "pdfconv"
+version = "0.1.0"
+description = "PDF converter"
+requires-python = ">=3.10"
+dependencies = ["pillow", "reportlab"]
+
+# Items intended only for developers.
+# Install them using pip install -e ".[dev]"
+[project.optional-dependencies]
+dev = ["pytest"]
+
+# Specifies that packages should be looked for in src/.
+# This is the section responsible for the "src layout"; without it, setuptools
+# wont't find pdfconv.
+[tool.setuptools.packages.find]
+where = ["src"]
