@@ -1,6 +1,10 @@
 from pathlib import Path
+
 from PIL import Image
 
-img1 = Image.open("/home/krzkos/Pictures/Screenshots/1.png").convert("RGB")
 
-img1.save("out.pdf")
+def convert_image(src: Path, out_dir: Path) -> Path:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / (src.stem + ".pdf")
+    Image.open(src).convert("RGB").save(out_path)
+    return out_path
