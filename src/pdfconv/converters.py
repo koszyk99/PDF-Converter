@@ -14,3 +14,9 @@ def _format_xml(text: str) -> str:
         return minidom.parseString(text.encode("utf-8")).toprettyxml(indent="  ")
     except ExpatError:
         return text
+
+def convert_text(src: Path, out_dir: Path) -> Path:
+    text = src.read_text(encoding="utf-8", errors="replace")
+    if src.suffix.lower() == ".xml":
+        text = _format_xml(text)
+    print(text)
