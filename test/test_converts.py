@@ -1,6 +1,5 @@
 from PIL import Image
-
-from pdfconv.converters import convert_image
+from pdfconv.converters import convert_image, convert_text
 
 def test_convert_image_creates_pdf(tmp_path):
     # Create a temporary image file
@@ -17,6 +16,20 @@ def test_convert_image_creates_pdf(tmp_path):
     assert pdf_path.suffix == ".pdf"
 
     # Check that the file really is a PDF
+    assert pdf_path.read_bytes().startswith(b"%PDF")
+
+def test_convert_text_creates_pdf(tmp_path):
+    # Create a temporary XML file
+    xml_path = tmp_path / "test_file.xml"
+    xml_path.write_text("<a><b>zażółć</b></a>", encoding="utf-8")
+
+    # Convert it to PDF
+    out_dir = tmp_path / "output"
+    pdf_path = convert_text(xml_path, out_dir)
+
+    # Check the result
+    assert pdf_path.exists()
+    assert pdf_path.suffix == ".pdf"
     assert pdf_path.read_bytes().startswith(b"%PDF")
 
 
