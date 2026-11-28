@@ -57,4 +57,18 @@ def convert_office(src: Path, out_dir: Path) -> Path:
     if not out_path.exists():  
         raise RuntimeError(f"LibreOffice conversion did not produce output file '{out_path}'.")
     return out_path
-    
+
+CONVERTERS = {
+    ".png": convert_image,
+    ".jpg": convert_image,
+    ".jpeg": convert_image,
+    ".txt": convert_text,
+    ".docx": convert_office,
+}
+
+def convert_file(src: Path, out_dir: Path) -> Path:
+    suffix = src.suffix.lower()
+    converter = CONVERTERS.get(suffix)
+    if converter is None:
+        raise ValueError(f"No converter available for file type '{suffix}'")
+    return converter(src, out_dir)
